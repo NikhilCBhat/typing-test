@@ -26,7 +26,7 @@ class TypingView:
         Lets the user know whether the word is correct.
         """
         return
-    
+
     def end_game(self, results):
         """
         Process the end of the game
@@ -58,17 +58,17 @@ class QtView(TypingView):
         # IDeas: 1) Another text label 2) screen  flash a color 3) Emails your mom that you're bad @ typing if you make mistakes 
         return
 
-    def start_view(self):        
+    def start_view(self):
         def process_text():
             current_text = self.wordBox.text()
             if current_text and current_text[-1] == " ":
                 self.controller.process_input(current_text.strip())
                 self.wordBox.clear()
 
-        self.label = QLabel("Hello World")
+        self.label = QLabel("Press the spacebar to begin")
 
         self.wordBox = QLineEdit()
-        self.wordBox.setText("Input")
+
         self.wordBox.textChanged.connect(process_text)
 
         window = QWidget()
@@ -92,18 +92,15 @@ class BasicTypingView(TypingView):
         super().__init__()
 
     def show_words(self, active_word, other_words):
-        print("Type: {}   Next: {}".format(
-            active_word, ' '.join(other_words[:10])
-        ))
+        print("Type: {}   Next: {}".format(active_word,
+                                           ' '.join(other_words[:10])))
 
     def _recieve_input(self):
         user_word = input("Text: ").strip()
         self.controller.process_input(user_word)
 
     def show_user_result(self, correct_word):
-        print("{}\n".format(
-            "Good Job!" if correct_word else "What a Loser!"
-        ))
+        print("{}\n".format("Good Job!" if correct_word else "What a Loser!"))
 
     def end_game(self, results):
         print("Game Over!")

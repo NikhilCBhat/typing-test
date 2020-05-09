@@ -1,5 +1,6 @@
 import time
 
+
 class TypingController:
     def __init__(self, view, model):
         """
@@ -31,9 +32,10 @@ class BasicTypingController(TypingController):
 
     def process_input(self, word):
         ## Gets status from the model
-        status = self.model.process_input(word, time.time()-self.previous_end_time)
+        status = self.model.process_input(word,
+                                          time.time() - self.previous_end_time)
         self.previous_end_time = time.time()
-        
+
         ## View shows the status
         self.view.show_user_result(status)
 

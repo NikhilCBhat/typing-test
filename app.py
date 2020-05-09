@@ -5,7 +5,8 @@ from view import BasicTypingView, QtView
 
 if __name__ == "__main__":
     m = SimpleModel(document_to_words("file.txt"))
-    v = BasicTypingView()
-    c = BasicTypingController(v, m, 10)
+    print(document_to_words("file.txt"))
+    v = QtView()
+    c = BasicTypingController(v, m)
 
     c.start()
