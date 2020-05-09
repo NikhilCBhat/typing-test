@@ -43,7 +43,8 @@ class QtView(TypingView):
         self.app = QApplication([])
 
     def show_words(self, active_word, other_words):
-        return
+        self.label.setText(active_word)
+        print("this happened")
 
     def recieve_input(self):
         return
@@ -51,22 +52,24 @@ class QtView(TypingView):
     def show_user_result(self, correct_word):
         return
 
-    def start_view(self):
-        def process_text(text):
-            self.controller.process_input(text)
+    def start_view(self):        
+        def process_text():
+            current_text = self.wordBox.text()
+            if current_text and current_text[-1] == " ":
+                self.controller.process_input(current_text.strip())
+                self.wordBox.clear()
 
-        label = QLabel("Hello World")
+        self.label = QLabel("Hello World")
 
-        wordBox = QLineEdit()
-        wordBox.setText("Input")
-        print(wordBox.text())
-        wordBox.returnPressed.connect(process_text)
+        self.wordBox = QLineEdit()
+        self.wordBox.setText("Input")
+        self.wordBox.textChanged.connect(process_text)
 
         window = QWidget()
         layout = QVBoxLayout()
 
-        layout.addWidget(label)
-        layout.addWidget(wordBox)
+        layout.addWidget(self.label)
+        layout.addWidget(self.wordBox)
 
         window.setLayout(layout)
 
