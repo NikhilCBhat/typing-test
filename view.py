@@ -57,6 +57,8 @@ class BasicTypingView(TypingView):
         print("{}\n".format(
             "Good Job!" if correct_word else "What a Loser!"
         ))
-    
-    def end_game(self):
+
+    def end_game(self, results):
         print("Game Over!")
+        for r in results:
+            print(r)
