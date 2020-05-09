@@ -1,3 +1,4 @@
+import sys
 from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QLineEdit, QVBoxLayout
 
 class TypingView:
@@ -11,13 +12,6 @@ class TypingView:
         """
         Shows the user's active word, 
         and the other word they have yet to type.
-        """
-        return
-
-    def recieve_input(self):
-        """
-        Recieves input from the user. 
-        Should have a traceback to the controller's `process_input` function.
         """
         return
 
@@ -38,6 +32,12 @@ class TypingView:
         Process the end of the game
         """
         return
+    
+    def start_view(self):
+        """
+        Starts the game
+        """
+        return
 
 
 class QtView(TypingView):
@@ -49,9 +49,6 @@ class QtView(TypingView):
     def show_words(self, active_word, other_words):
         self.label.setText(active_word)
         print("this happened")
-
-    def recieve_input(self):
-        return
 
     def show_user_result(self, correct_word):
         return
@@ -91,7 +88,7 @@ class BasicTypingView(TypingView):
             active_word, ' '.join(other_words[:10])
         ))
 
-    def recieve_input(self):
+    def _recieve_input(self):
         user_word = input("Text: ").strip()
         self.controller.process_input(user_word)
 
@@ -106,3 +103,8 @@ class BasicTypingView(TypingView):
         for r in raw_results:
             print(r)
         print("{} WPM".format(num_words))
+        sys.exit()
+    
+    def start_view(self):
+        while True:
+            self._recieve_input()

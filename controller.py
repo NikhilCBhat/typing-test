@@ -15,18 +15,18 @@ class TypingController:
         Should have a callback to the model.
         """
         return
-    
+
     def run(self):
         "Runs the program"
         return
 
 
 class BasicTypingController(TypingController):
-    def __init__(self, view, model):
+    def __init__(self, view, model, game_length=60):
         super().__init__(view, model)
         self.start_time = time.time()
         self.previous_end_time = time.time()
-
+        self.game_length = game_length
         self.view.start_view()
 
     def process_input(self, word):
@@ -39,19 +39,11 @@ class BasicTypingController(TypingController):
 
         ## Check End State, If necessary end the game
         current_word, next_words = self.model.get_current_words()
-        if current_word is None or time.time() - self.start_time > 60:
+        if current_word is None or time.time() - self.start_time > self.game_length:
             self.view.end_game(self.model.get_results())
 
         ## Shows the words on the view
         self.view.show_words(current_word, next_words)
 
-
     def start(self):
         self.start_time = time.time()
-        # current_word, next_words = self.model.get_current_words()
-        # while current_word and time.time()-self.start < 60:
-        #     self.view.show_words(current_word, next_words)
-        #     self.view.recieve_input()
-        #     current_word, next_words = self.model.get_current_words()
-
-        # self.view.end_game(self.model.get_results())
