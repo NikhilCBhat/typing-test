@@ -39,7 +39,7 @@ class BasicTypingController(TypingController):
 
         ## Check End State, If necessary end the game
         current_word, next_words = self.model.get_current_words()
-        if current_word is None or time.time() - self.start_time < 60:
+        if current_word is None or time.time() - self.start_time > 60:
             self.view.end_game(self.model.get_results())
 
         ## Shows the words on the view
