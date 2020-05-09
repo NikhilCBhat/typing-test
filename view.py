@@ -46,11 +46,11 @@ class BasicTypingView(TypingView):
 
     def show_words(self, active_word, other_words):
         print("Type: {}   Next: {}".format(
-            active_word, ' '.join(other_words)
+            active_word, ' '.join(other_words[:10])
         ))
 
     def recieve_input(self):
-        user_word = input("Text: ")
+        user_word = input("Text: ").strip()
         self.controller.process_input(user_word)
 
     def show_user_result(self, correct_word):
