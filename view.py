@@ -33,7 +33,7 @@ class TypingView:
         """
         return
     
-    def end_game(self):
+    def end_game(self, results):
         """
         Process the end of the game
         """
