@@ -44,4 +44,4 @@ class SimpleModel(TypingModel):
         return self.active_word, self.words[::-1]
 
     def get_results(self):
-        return self.results, len([x for x in self.results if x[0]])
+        return self.results, {"WPM": len([x for x in self.results if x[0]])}
