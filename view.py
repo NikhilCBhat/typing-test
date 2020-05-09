@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QLineEdit, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QLineEdit, QVBoxLayout, QHBoxLayout
+
 
 class TypingView:
     def __init__(self):
@@ -32,7 +33,7 @@ class TypingView:
         Process the end of the game
         """
         return
-    
+
     def start_view(self):
         """
         Starts the game
@@ -47,45 +48,66 @@ class QtView(TypingView):
         self.app = QApplication([])
 
     def show_words(self, active_word, other_words):
-        # TODO 
-        # -- display look good, other words should display too 
-        self.label.setText(active_word)
-        print("this happened")
+        
+
+        self.labelActiveWord.setText(active_word)
+        self.labelOtherWords.setText(' '.join(other_words[:10]))
 
     def show_user_result(self, correct_word):
         # TODO
         # Lucas' creative decision here
-        # IDeas: 1) Another text label 2) screen  flash a color 3) Emails your mom that you're bad @ typing if you make mistakes 
+        # IDeas: 1) Another text label 2) screen  flash a color 3) Emails your mom that you're bad @ typing if you make mistakes
         return
 
     def start_view(self):
-        def process_text():
-            current_text = self.wordBox.text()
-            if current_text and current_text[-1] == " ":
-                self.controller.process_input(current_text.strip())
-                self.wordBox.clear()
-
-        self.label = QLabel("Press the spacebar to begin")
+        window = QWidget()
+        window.setGeometry(10,10,300,200)
+        window.setWindowTitle("Typing Test")
+        
+        ## WIDGETS
+        self.labelActiveWord = QLabel("Press the spacebar to begin")
+        self.labelActiveWord.setStyleSheet("font: 18pt; color: Blue;")
+        self.labelOtherWords = QLabel("")
+        self.labelOtherWords.setStyleSheet("font: 18pt; color: Grey;")
 
         self.wordBox = QLineEdit()
 
-        self.wordBox.textChanged.connect(process_text)
+        self.wordBox.textChanged.connect(self._handle_text_change)
+        ###
 
-        window = QWidget()
-        layout = QVBoxLayout()
-
-        layout.addWidget(self.label)
-        layout.addWidget(self.wordBox)
-
-        window.setLayout(layout)
-
+        mainLayout = self._build_layout()
+        window.setLayout(mainLayout)
+        
         window.show()
-
         self.app.exec_()
-    
+
     def end_game(self, results):
-        #TODO -- THis sshould at the very least STOP somehow
+        sys.exit()
         return
+
+    def _handle_text_change(self):
+        current_text = self.wordBox.text()
+        if current_text and current_text[-1] == " ":
+            self.controller.process_input(current_text.strip())
+            self.wordBox.clear()
+
+    def _build_layout(self):
+        
+        layoutTop = QVBoxLayout()
+        
+        words = QWidget()
+        wordsLayout = QHBoxLayout()
+        wordsLayout.addWidget(self.labelActiveWord)
+        wordsLayout.addWidget(self.labelOtherWords)
+        wordsLayout.setStretch(0, 0)
+        wordsLayout.setStretch(1, 1)
+        words.setLayout(wordsLayout)
+
+
+        layoutTop.addWidget(words)
+        layoutTop.addWidget(self.wordBox)
+
+        return layoutTop
 
 class BasicTypingView(TypingView):
     def __init__(self):
@@ -109,7 +131,7 @@ class BasicTypingView(TypingView):
             print(r)
         print("{} WPM".format(num_words))
         sys.exit()
-    
+
     def start_view(self):
         while True:
             self._recieve_input()
