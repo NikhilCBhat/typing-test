@@ -89,22 +89,15 @@ class BasicTypingView(TypingView):
         super().__init__()
 
     def show_words(self, active_word, other_words):
-<<<<<<< HEAD
-        print("Type: {}   Next: {}".format(active_word, ' '.join(other_words)))
-=======
         print("Type: {}   Next: {}".format(
             active_word, ' '.join(other_words[:10])
         ))
->>>>>>> simple-view
 
     def recieve_input(self):
         user_word = input("Text: ").strip()
         self.controller.process_input(user_word)
 
     def show_user_result(self, correct_word):
-<<<<<<< HEAD
-        print("{}\n".format("Good Job!" if correct_word else "What a Loser!"))
-=======
         print("{}\n".format(
             "Good Job!" if correct_word else "What a Loser!"
         ))
@@ -115,4 +108,3 @@ class BasicTypingView(TypingView):
         for r in raw_results:
             print(r)
         print("{} WPM".format(num_words))
->>>>>>> simple-view
