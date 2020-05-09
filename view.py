@@ -107,10 +107,10 @@ class BasicTypingView(TypingView):
         ))
 
     def end_game(self, results):
-        print("Game Over!")
+        print("Game Over!\nStats")
         raw_results, stats = results
-        for r in raw_results:
-            print(r)
+        # for r in raw_results:
+            # print(r)
         
         for key, value in stats.items():
             print(key, value)

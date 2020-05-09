@@ -29,6 +29,7 @@ class SimpleModel(TypingModel):
         super().__init__(words)
         self._next_word()
         self.results = []
+        self.stats = {}
 
     def process_input(self, user_word, time_elapsed):
         active_word, _ = self.get_current_words()
@@ -44,4 +45,18 @@ class SimpleModel(TypingModel):
         return self.active_word, self.words[::-1]
 
     def get_results(self):
-        return self.results, {"WPM": len([x for x in self.results if x[0]])}
+        self._generate_stats()
+        return self.results, self.stats
+    
+    def _generate_stats(self):
+        total_charectars = sum([len(x[1]) for x in self.results if x[0]])
+        total_correct_words = len([x for x in self.results if x[0]])
+        total_words = len(self.results)
+        
+        self.stats = {
+            "WPM (adjusted)": round(total_charectars/5, 2),
+            "WPM (raw)": total_correct_words,
+            "Accuracy": "{}%".format(round(100*total_correct_words/total_words, 2)),
+            "Typed Words": total_words,
+            "Correct Words": total_correct_words
+        }
