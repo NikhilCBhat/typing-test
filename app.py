@@ -1,11 +1,10 @@
-from view import QtView
 from controller import BasicTypingController
 from model import SimpleModel
-from view import BasicTypingView
+from view import BasicTypingView, QtView
 
 if __name__ == "__main__":
     m = SimpleModel(["dog", "cat", "apple", "banana", "lorem"])
-    v = BasicTypingView()
+    v = QtView()
     c = BasicTypingController(v, m)
 
     c.start()

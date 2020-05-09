@@ -1,5 +1,4 @@
 class TypingController:
-
     def __init__(self, view, model):
         self.view = view
         self.view.set_controller(self)
@@ -7,17 +6,18 @@ class TypingController:
 
     def process_input(self, word):
         return
-    
+
     def start(self):
         return
 
 
 class BasicTypingController(TypingController):
-
     def __init__(self, view, model):
         self.view = view
         self.view.set_controller(self)
         self.model = model
+
+        self.view.start_view()
 
     def process_input(self, word):
         status = self.model.process_input(word)

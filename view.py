@@ -1,10 +1,8 @@
-from PyQt5.QtWidgets import QApplication, QLabel
+from PyQt5.QtWidgets import (QWidget, QApplication, QLabel, QLineEdit,
+                             QVBoxLayout)
 
 
 class TypingView:
-    def __init__(self):
-        return
-
     def __init__(self):
         """
         Initializes a view.
@@ -43,8 +41,37 @@ class QtView(TypingView):
         super().__init__()
 
         self.app = QApplication([])
+
+    def show_words(self, active_word, other_words):
+        return
+
+    def recieve_input(self):
+        return
+
+    def show_user_result(self, correct_word):
+        return
+
+    def start_view(self):
+        def process_text(text):
+            self.controller.process_input(text)
+
         label = QLabel("Hello World")
-        label.show()
+
+        wordBox = QLineEdit()
+        wordBox.setText("Input")
+        print(wordBox.text())
+        wordBox.returnPressed.connect(process_text)
+
+        window = QWidget()
+        layout = QVBoxLayout()
+
+        layout.addWidget(label)
+        layout.addWidget(wordBox)
+
+        window.setLayout(layout)
+
+        window.show()
+
         self.app.exec_()
 
 
