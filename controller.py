@@ -36,4 +36,4 @@ class BasicTypingController(TypingController):
             self.view.recieve_input()
             current_word, next_words = self.model.get_current_words()
 
-        print("Game Completed!")
+        self.view.end_game()

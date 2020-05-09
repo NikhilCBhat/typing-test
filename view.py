@@ -31,6 +31,12 @@ class TypingView:
         Lets the user know whether the word is correct.
         """
         return
+    
+    def end_game(self):
+        """
+        Process the end of the game
+        """
+        return
 
 
 class BasicTypingView(TypingView):
@@ -51,3 +57,6 @@ class BasicTypingView(TypingView):
         print("{}\n".format(
             "Good Job!" if correct_word else "What a Loser!"
         ))
+    
+    def end_game(self):
+        print("Game Over!")
