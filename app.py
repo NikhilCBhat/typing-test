@@ -8,4 +8,4 @@ if __name__ == "__main__":
     v = QtView()
     c = BasicTypingController(v, m)
 
-    c.start()
+    c.run()

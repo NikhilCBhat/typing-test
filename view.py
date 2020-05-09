@@ -112,6 +112,7 @@ class QtView(TypingView):
 class BasicTypingView(TypingView):
     def __init__(self):
         super().__init__()
+        self.started = False
 
     def show_words(self, active_word, other_words):
         print("Type: {}   Next: {}".format(active_word,
@@ -125,13 +126,15 @@ class BasicTypingView(TypingView):
         print("{}\n".format("Good Job!" if correct_word else "What a Loser!"))
 
     def end_game(self, results):
-        print("Game Over!")
-        raw_results, num_words = results
-        for r in raw_results:
-            print(r)
-        print("{} WPM".format(num_words))
+        print("Game Over!\nStats")
+
+        for key, value in results.items():
+            print(key, value)
+
         sys.exit()
 
     def start_view(self):
+        input("Press Enter to begin!")
+        self.controller.start_game()
         while True:
             self._recieve_input()

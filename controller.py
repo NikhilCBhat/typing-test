@@ -18,17 +18,21 @@ class TypingController:
         return
 
     def run(self):
-        "Runs the program"
+        "Launches the program"
+        return
+    
+    def start_game(self):
+        """
+        Starts the game
+        """
         return
 
 
 class BasicTypingController(TypingController):
     def __init__(self, view, model, game_length=60):
         super().__init__(view, model)
-        self.start_time = time.time()
         self.previous_end_time = time.time()
         self.game_length = game_length
-        self.view.start_view()
 
     def process_input(self, word):
         ## Gets status from the model
@@ -47,5 +51,10 @@ class BasicTypingController(TypingController):
         ## Shows the words on the view
         self.view.show_words(current_word, next_words)
 
-    def start(self):
+    def start_game(self):
         self.start_time = time.time()
+        current_word, next_words = self.model.get_current_words()
+        self.view.show_words(current_word, next_words)
+
+    def run(self):
+        self.view.start_view()
