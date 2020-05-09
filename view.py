@@ -47,10 +47,15 @@ class QtView(TypingView):
         self.app = QApplication([])
 
     def show_words(self, active_word, other_words):
+        # TODO 
+        # -- display look good, other words should display too 
         self.label.setText(active_word)
         print("this happened")
 
     def show_user_result(self, correct_word):
+        # TODO
+        # Lucas' creative decision here
+        # IDeas: 1) Another text label 2) screen  flash a color 3) Emails your mom that you're bad @ typing if you make mistakes 
         return
 
     def start_view(self):        
@@ -77,7 +82,10 @@ class QtView(TypingView):
         window.show()
 
         self.app.exec_()
-
+    
+    def end_game(self, results):
+        #TODO -- THis sshould at the very least STOP somehow
+        return
 
 class BasicTypingView(TypingView):
     def __init__(self):
