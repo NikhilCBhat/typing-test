@@ -1,12 +1,25 @@
 class TypingModel:
 
     def __init__(self, words):
+        """
+        Initializes a model. 
+        At minimum, a model needs a collection of words.
+        """
         self.words = words
     
     def process_input(self, user_word):
+        """
+        Processes the user's input.
+        Should return a boolean indicating 
+        whether the input is correct or false.
+        """
         return
     
     def get_current_words(self):
+        """
+        Returns both the currect active word, 
+        and the other words the user needs to type.
+        """
         return
 
 

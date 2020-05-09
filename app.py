@@ -7,4 +7,4 @@ if __name__ == "__main__":
     v = BasicTypingView()
     c = BasicTypingController(v, m)
 
-    c.start()
+    c.run()
