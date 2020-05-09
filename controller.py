@@ -21,10 +21,8 @@ class BasicTypingController(TypingController):
 
     def process_input(self, word):
         status = self.model.process_input(word)
-        next_word, other_words = self.model.get_current_words()
         self.view.show_user_result(status)
-        self.view.show_words(next_word, other_words)
-    
+
     def start(self):
         current_word, next_words = self.model.get_current_words()
         while current_word:
