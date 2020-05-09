@@ -60,5 +60,7 @@ class BasicTypingView(TypingView):
 
     def end_game(self, results):
         print("Game Over!")
-        for r in results:
+        raw_results, num_words = results
+        for r in raw_results:
             print(r)
+        print("{} WPM".format(num_words))
