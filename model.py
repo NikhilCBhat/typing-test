@@ -6,7 +6,7 @@ class TypingModel:
         At minimum, a model needs a collection of words.
         """
         self.words = words
-    
+
     def process_input(self, user_word, time_elapsed):
         """
         Processes the user's input.
@@ -14,7 +14,7 @@ class TypingModel:
         whether the input is correct or false.
         """
         return
-    
+
     def get_current_words(self):
         """
         Returns both the currect active word, 
@@ -47,12 +47,12 @@ class SimpleModel(TypingModel):
     def get_results(self):
         self._generate_stats()
         return self.results, self.stats
-    
+
     def _generate_stats(self):
         total_charectars = sum([len(x[1]) for x in self.results if x[0]])
         total_correct_words = len([x for x in self.results if x[0]])
         total_words = len(self.results)
-        
+
         self.stats = {
             "WPM (adjusted)": round(total_charectars/5, 2),
             "WPM (raw)": total_correct_words,

@@ -111,7 +111,7 @@ class BasicTypingView(TypingView):
         raw_results, stats = results
         # for r in raw_results:
             # print(r)
-        
+
         for key, value in stats.items():
             print(key, value)
 

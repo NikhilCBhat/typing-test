@@ -37,7 +37,7 @@ class BasicTypingController(TypingController):
         ## Gets status from the model
         status = self.model.process_input(word, time.time()-self.previous_end_time)
         self.previous_end_time = time.time()
-        
+
         ## View shows the status
         self.view.show_user_result(status)
 
