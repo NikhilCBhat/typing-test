@@ -48,7 +48,7 @@ class SimpleModel(TypingModel):
 
     def get_results(self):
         a = Analyzer(self.results)
-
+        a.generate_bar_graph()
         return a.generate_stats()
 
 
