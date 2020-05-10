@@ -48,7 +48,10 @@ class SimpleModel(TypingModel):
 
     def get_results(self):
         a = Analyzer(self.results)
-
+        a.generate_bar_graph()
+        a.generate_scatter_plot_time()
+        a.generate_scatter_plot_time_elapsed()
+    
         return a.generate_stats()
 
 
