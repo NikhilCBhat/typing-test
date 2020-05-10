@@ -3,12 +3,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 class Analyzer:
-    
-    def __init__(self, word_results):
-        self.data = pd.DataFrame(word_results, columns=["Status", "Word", "UserInput", "Time"])
-        self.data.to_csv("data.csv")
-        print(self.data)
-    
+
+    def __init__(self, word_results, dataframe=False):
+        if dataframe:
+            self.data = word_results
+        else:
+            self.data = pd.DataFrame(word_results, columns=["Status", "Word", "UserInput", "Time"])
+
     def generate_stats(self):
         total_characters = sum([len(x[1]) for x in self.data if x[0]])
         total_correct_words = len([x for x in self.data if x[0]])
@@ -21,17 +22,16 @@ class Analyzer:
             "Typed Words": total_words,
             "Correct Words": total_correct_words
         }
-    
+
     def generate_bar_graph(self):
+        sorted_data = self.data.sort_values(by=["Time"], ascending=False)
         sns.set(style="whitegrid")
-        sns.barplot(x="Word", y="Time", data=self.data)
+        chart = sns.barplot(x="Word", y="Time", data=sorted_data)
+        chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
         plt.show()
 
 
 if __name__ == "__main__":
-    data = [
-        [True, "dog", "dog", 1],
-        [True, "cat", "cat", 3]
-        ]
-    a = Analyzer(data)
+    data = pd.read_csv("data.csv")
+    a = Analyzer(data, dataframe=True)
     a.generate_bar_graph()
