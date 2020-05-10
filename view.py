@@ -1,6 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QLineEdit, QVBoxLayout, QHBoxLayout
-
+from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QLineEdit, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem, QPushButton
+from PyQt5.QtCore import QRect
 
 class TypingView:
     def __init__(self):
@@ -44,7 +44,7 @@ class TypingView:
 class QtView(TypingView):
     def __init__(self):
         super().__init__()
-
+        self.started = False
         self.app = QApplication([])
 
     def show_words(self, active_word, other_words):
@@ -60,10 +60,22 @@ class QtView(TypingView):
         return
 
     def start_view(self):
-        window = QWidget()
-        window.setGeometry(10,10,300,200)
-        window.setWindowTitle("Typing Test")
-        
+        self.window = QWidget()
+
+        geometry = self.app.desktop().screenGeometry()
+        x = 0.25 * geometry.width()
+        y = 0.25 * geometry.height()
+        w = 2 * x
+        h = 2 * y
+        geometry.setX(x)
+        geometry.setY(y)
+        geometry.setWidth(w)
+        geometry.setHeight(h)
+
+        self.window.setGeometry(geometry)
+        self.window.setWindowTitle("Typing Test")
+
+        ##########
         ## WIDGETS
         self.labelActiveWord = QLabel("Press the spacebar to begin")
         self.labelActiveWord.setStyleSheet("font: 18pt; color: Blue;")
@@ -72,29 +84,57 @@ class QtView(TypingView):
 
         self.wordBox = QLineEdit()
 
-        self.wordBox.textChanged.connect(self._handle_text_change)
-        ###
+        self.quitButton = QPushButton("QUIT")
+        self.restartButton = QPushButton("RESTART")
+
+        self.tableResults = QTableWidget()
+        ##########
 
         mainLayout = self._build_layout()
-        window.setLayout(mainLayout)
+        self.window.setLayout(mainLayout)
         
-        window.show()
+        ##########
+        ## SIGNALS
+        self.wordBox.textChanged.connect(self._handle_text_change)
+        self.quitButton.clicked.connect(self._quit)
+        ##########
+
+        self.window.show()
         self.app.exec_()
 
-    def end_game(self, results):
+    def _quit(self):
+        print("Quitting")
         sys.exit()
+
+    def end_game(self, results):
+        # self.labelActiveWord.hide()
+        # self.labelOtherWords.hide()
+        # self.wordBox.hide()
+        self.tableResults.show()
+
+        self.tableResults.setRowCount(len(results))
+
+        for i, (k, v) in enumerate(results.items()):
+            self.tableResults.setItem(i, 0, QTableWidgetItem(k))
+            self.tableResults.setItem(i, 1, QTableWidgetItem(str(v)))
+
         return
 
     def _handle_text_change(self):
-        current_text = self.wordBox.text()
-        if current_text and current_text[-1] == " ":
-            self.controller.process_input(current_text.strip())
-            self.wordBox.clear()
+        if not self.started:
+            self.started = True
+            self.controller.start_game()
+        else:
+            current_text = self.wordBox.text()
+            if current_text and current_text[-1] == " ":
+                self.controller.process_input(current_text.strip())
+                self.wordBox.clear()
+    
 
     def _build_layout(self):
         
         layoutTop = QVBoxLayout()
-        
+   
         words = QWidget()
         wordsLayout = QHBoxLayout()
         wordsLayout.addWidget(self.labelActiveWord)
@@ -103,9 +143,20 @@ class QtView(TypingView):
         wordsLayout.setStretch(1, 1)
         words.setLayout(wordsLayout)
 
+        buttons = QWidget()
+        btnLayout = QHBoxLayout()
+        btnLayout.addWidget(self.quitButton)
+        btnLayout.addWidget(self.restartButton)
+        buttons.setLayout(btnLayout)
+
+        self.tableResults.setRowCount(2)
+        self.tableResults.setColumnCount(2)
 
         layoutTop.addWidget(words)
         layoutTop.addWidget(self.wordBox)
+        layoutTop.addWidget(self.tableResults)
+        layoutTop.addWidget(buttons)
+        self.tableResults.hide()
 
         return layoutTop
 
