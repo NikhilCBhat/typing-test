@@ -4,16 +4,19 @@ import matplotlib.pyplot as plt
 
 class Analyzer:
 
-    def __init__(self, word_results, dataframe=False):
+    def __init__(self, word_results, dataframe=False, output_filename=None):
         if dataframe:
             self.data = word_results
         else:
-            self.data = pd.DataFrame(word_results, columns=["Status", "Word", "UserInput", "Time"])
+            self.data = pd.DataFrame(word_results, columns=["Status", "Word", "User_Input", "Time"])
+        
+        if output_filename:
+            self.data.to_csv(output_filename)
 
     def generate_stats(self):
-        total_characters = sum([len(x[1]) for x in self.data if x[0]])
-        total_correct_words = len([x for x in self.data if x[0]])
-        total_words = len(self.data)
+        total_characters = sum([len(x) for i,x in enumerate(self.data["Word"]) if self.data["Status"][i]])
+        total_correct_words = len([x for x in self.data["Status"] if x])
+        total_words = len(self.data["Word"])
 
         return {
             "WPM (adjusted)": round(total_characters/5, 2),
@@ -24,14 +27,28 @@ class Analyzer:
         }
 
     def generate_bar_graph(self):
-        sorted_data = self.data.sort_values(by=["Time"], ascending=False)
         sns.set(style="whitegrid")
-        chart = sns.barplot(x="Word", y="Time", data=sorted_data)
+        chart = sns.barplot(x="Word", y="Time", data=self.data.sort_values(by=["Time"], ascending=False), 
+            hue="Status", dodge=False)
         chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
         plt.show()
 
+    def generate_scatter_plot_time(self):
+        sns.set(style="whitegrid")
+        chart = sns.scatterplot(x="Order", y="Time", data=self.data, hue="Status")
+        chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+        plt.show()
+
+    def generate_scatter_plot_time_elapsed(self):
+        self.data["Time_Elapsed"] = self.data["Time"].cumsum()
+        self.data["Order"] = [i for i in range(len(self.data["Status"]))]
+        sns.set(style="whitegrid")
+        chart = sns.scatterplot(x="Order", y="Time_Elapsed", data=self.data, hue="Status")
+        chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+        plt.show()
 
 if __name__ == "__main__":
-    data = pd.read_csv("data.csv")
+    data = pd.read_csv("data_two.csv")
     a = Analyzer(data, dataframe=True)
-    a.generate_bar_graph()
+    print(a.generate_stats())
+    a.generate_scatter_plot_time_elapsed()
