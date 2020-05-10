@@ -12,6 +12,7 @@ class Analyzer:
         
         if output_filename:
             self.data.to_csv(output_filename)
+        self.data["Order"] = [i for i in range(len(self.data["Status"]))]
 
     def generate_stats(self):
         total_characters = sum([len(x) for i,x in enumerate(self.data["Word"]) if self.data["Status"][i]])
@@ -31,24 +32,28 @@ class Analyzer:
         chart = sns.barplot(x="Word", y="Time", data=self.data.sort_values(by=["Time"], ascending=False), 
             hue="Status", dodge=False)
         chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+        chart.set_title("Time per Word")
         plt.show()
 
     def generate_scatter_plot_time(self):
         sns.set(style="whitegrid")
         chart = sns.scatterplot(x="Order", y="Time", data=self.data, hue="Status")
         chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+        chart.set_title("Seconds per Word over Time")
         plt.show()
 
     def generate_scatter_plot_time_elapsed(self):
         self.data["Time_Elapsed"] = self.data["Time"].cumsum()
-        self.data["Order"] = [i for i in range(len(self.data["Status"]))]
         sns.set(style="whitegrid")
         chart = sns.scatterplot(x="Order", y="Time_Elapsed", data=self.data, hue="Status")
         chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+        chart.set_title("Cumulative Time Graph")
         plt.show()
 
 if __name__ == "__main__":
     data = pd.read_csv("data_two.csv")
     a = Analyzer(data, dataframe=True)
     print(a.generate_stats())
+    a.generate_bar_graph()
+    a.generate_scatter_plot_time()
     a.generate_scatter_plot_time_elapsed()
