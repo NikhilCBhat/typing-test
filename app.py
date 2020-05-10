@@ -11,7 +11,8 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--time', action='store', type=int, help="Time to run test for", default=60)
     args = parser.parse_args()
 
-    v = BasicTypingView() if args.d else QtView
+    v = BasicTypingView() if args.d else QtView()
+
     w = document_to_words("file.txt", shuffle=True)
     m = SimpleModel(w)
     c = BasicTypingController(v, m, args.time)
