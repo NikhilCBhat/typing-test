@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Run typing test script")
     parser.add_argument('-d', action='store_true', help="Run in debug mode with simple command-line frontend")
-    parser.add_argument('-t', '--time', action='store', type=int, help="Time to run test for", default=60)
+    parser.add_argument('-t', '--time', type=int, help="Time to run test for", default=60)
     args = parser.parse_args()
 
     v = BasicTypingView() if args.d else QtView()

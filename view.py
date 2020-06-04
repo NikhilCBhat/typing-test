@@ -48,15 +48,15 @@ class QtView(TypingView):
         self.app = QApplication([])
 
     def show_words(self, active_word, other_words):
-        
 
         self.labelActiveWord.setText(active_word)
         self.labelOtherWords.setText(' '.join(other_words[:10]))
 
     def show_user_result(self, correct_word):
         # TODO
-        # Lucas' creative decision here
-        # IDeas: 1) Another text label 2) screen  flash a color 3) Emails your mom that you're bad @ typing if you make mistakes
+        # Ideas 
+        #   1) Another text label 
+        #   2) Screen  flash a color
         return
 
     def start_view(self):
@@ -107,9 +107,9 @@ class QtView(TypingView):
         sys.exit()
 
     def end_game(self, results):
-        # self.labelActiveWord.hide()
-        # self.labelOtherWords.hide()
-        # self.wordBox.hide()
+        self.labelActiveWord.hide()
+        self.labelOtherWords.hide()
+        self.wordBox.hide()
         self.tableResults.show()
 
         self.tableResults.setRowCount(len(results))
@@ -169,12 +169,8 @@ class BasicTypingView(TypingView):
         print("Type: {}   Next: {}".format(active_word,
                                            ' '.join(other_words[:10])))
 
-    def _recieve_input(self):
-        user_word = input("Text: ").strip()
-        self.controller.process_input(user_word)
-
     def show_user_result(self, correct_word):
-        print("{}\n".format("Good Job!" if correct_word else "What a Loser!"))
+        print("{}\n".format("Good Job!" if correct_word else "Incorrect!"))
 
     def end_game(self, results):
         print("Game Over!\nStats")
@@ -189,3 +185,10 @@ class BasicTypingView(TypingView):
         self.controller.start_game()
         while True:
             self._recieve_input()
+
+    def _recieve_input(self):
+        """
+        Gets input from the command line, and sends that to the controller.
+        """
+        user_word = input("Text: ").strip()
+        self.controller.process_input(user_word)
