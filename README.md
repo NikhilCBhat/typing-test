@@ -23,7 +23,7 @@ Just run the `app` to get started!
 python3 app.py
 ```
 
-## Examples
+## Walkthrough
 
 Start Screen
 ![Start Screen](https://i.imgur.com/EPI5bO4.png)
